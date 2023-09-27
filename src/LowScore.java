@@ -31,11 +31,7 @@ public class LowScore {
         if (userInput.userInputAsString().equals("JA")) {  
             askForUserName(userNameMsg);
             saveLowScore();
-            System.out.println("Ditt lowscore är nu sparat!");
-        } else {
-            System.out.println("Sparar inte...");
         }
-        
     }
     
     private static void askForUserName(String userNameMsg) {

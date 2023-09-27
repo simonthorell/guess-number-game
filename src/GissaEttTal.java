@@ -25,7 +25,6 @@ public class GissaEttTal {
     }
 
     private void printGameDescription() {
-        System.out.println("VÄLKOMMEN TILL SIMONS SPELHÅLA!");
         System.out.println("Gissa ett tal mellan 1 och 100.");
     }
 
@@ -104,6 +103,7 @@ public class GissaEttTal {
                 break;
             default:
                 System.out.println("Du kan bara skriva 1, 2 eller 3. Försök igen!");
+                break;
         }
     }
 }

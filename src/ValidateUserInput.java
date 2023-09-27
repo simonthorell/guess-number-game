@@ -26,8 +26,8 @@ public class ValidateUserInput {
     }
 
     public String userInputAsString() {
-        String userInput = scanner.nextLine();
-        return userInput;
+        String userInputAsString = scanner.nextLine();
+        return userInputAsString;
     }
 
 }
