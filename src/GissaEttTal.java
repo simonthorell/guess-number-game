@@ -1,44 +1,48 @@
 import java.util.Random;
 
 public class GissaEttTal {
-    boolean runGame = true;
-    int secretNumber;
-    int numberOfGuesses;
-    int userGuess;
+    static boolean runGame = true;
+    static int secretNumber = 0;
+    static int numberOfGuesses = 0;
+    static int userGuess = 0;
+    static String userName;
     
     public GissaEttTal() {
         while (runGame) {
-            generateSecretNumer();
+            generateSecretNumber();
             printGameDescription();
             askUserToGuess();
             checkUserGuess();
-            showGameMenu();
+            checkIfLowScore();
+            gameMenu();
         }
     }   
 
-    private void generateSecretNumer() {
+    private void generateSecretNumber() {
         // Generate a random number between 1 and 100.
         Random random = new Random();
         secretNumber = random.nextInt(100) + 1;
     }
 
     private void printGameDescription() {
+        System.out.println("VÄLKOMMEN TILL SIMONS SPELHÅLA!");
         System.out.println("Gissa ett tal mellan 1 och 100.");
     }
 
     private void askUserToGuess() {
         numberOfGuesses++;
-        UserInput userInput = new UserInput();
+        ValidateUserInput userInput = new ValidateUserInput();
 
         userGuess = userInput.userInputAsInteger(
             // Set message that should be displayed to user in front of user input value. 
             "Gissning " + numberOfGuesses + ": ",
-            // Set input messeage that should be returned to user if input is not an integer.
+            // Set messeage that should be returned to user if input is not an integer.
             "Du kan bara skriva ett tal med siffror. Försök igen!"
         );
     }
 
     private void checkUserGuess() {
+        // Give instruction to user if guess is correct or too low/high.
         while (userGuess != secretNumber) {
             if (userGuess < secretNumber) {
                 System.out.println("Din gissning är för låg!");
@@ -50,8 +54,26 @@ public class GissaEttTal {
         System.out.println("Rätt! Du gissade rätt på " + numberOfGuesses + " försök.");
     }
 
-    private void showGameMenu() {
-        UserInput userInput = new UserInput();
+    private void checkIfLowScore() {
+        // Set a specific keyword that user need to type in consol in order to save lowscore.
+        String saveKeyWord = "JA";
+
+        // Check if number of guesses is lower than current lowscore.
+        LowScore.lowScore(
+            numberOfGuesses, 
+            // Set message that should be shown to user if new lowscore achieved. 
+            "Grattis! Du har ett nytt lowscore!",
+            // Set message asking user if lowscore should be saved.
+            "Skriv " + saveKeyWord + " för att spara till lowScore: ", 
+            // Keyword that user need to type in order to save lowscore.
+            saveKeyWord,
+            // Set message asking user name that should be saved with lowscore.
+            "Skriv ditt namn: "
+        );
+    }
+
+    private void gameMenu() {
+        ValidateUserInput userInput = new ValidateUserInput();
 
         System.out.println("1. Spela igen");
         System.out.println("2. Avsluta");
@@ -60,7 +82,7 @@ public class GissaEttTal {
         int menuSelection = userInput.userInputAsInteger(
             // Set message that should be displayed to user in front of user input value. 
             "Ditt val: ",
-            // Set input messeage that should be returned to user if input is not an integer.
+            // Set messeage that should be returned to user if input is not an integer.
             "Du kan bara skriva ett tal med siffror. Försök igen!"
         );
 
@@ -76,7 +98,10 @@ public class GissaEttTal {
                 break;
             case 3:
                 // Show lowscore board
-                break;  
+                int lowScore = LowScore.loadLowScore();
+                System.out.println("Lowscore: " + lowScore);
+                gameMenu();
+                break;
             default:
                 System.out.println("Du kan bara skriva 1, 2 eller 3. Försök igen!");
         }

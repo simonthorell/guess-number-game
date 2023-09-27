@@ -1,26 +1,34 @@
 import java.util.Scanner;
 
-public class UserInput {
+public class ValidateUserInput {
     Scanner scanner = new Scanner(System.in);
 
-    public int userInputAsInteger(String inputMessage, String errorMessage) {
+    public int userInputAsInteger(String inputMsg, String errorMsg) {
         String userInput;
         int userInputAsInteger = 0;
         boolean validInput = false;
-
+        
         while (!validInput) {
-            System.out.print(inputMessage);
+            System.out.print(inputMsg);
             userInput = scanner.nextLine();
-
+            
             try {
                 // Try to convert user String input to integer.
                 userInputAsInteger = Integer.parseInt(userInput);
                 validInput = true;
+
             } catch (Exception e) {
                 // If user input is not an integer, print an error message.
-                System.out.println(errorMessage);
+                System.out.println(errorMsg);
             }
         }
         return userInputAsInteger;
-    }    
+    }
+
+    public String userInputAsString() {
+        String userInput = scanner.nextLine();
+        return userInput;
+    }
+
 }
+
