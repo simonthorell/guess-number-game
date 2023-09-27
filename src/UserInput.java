@@ -3,13 +3,13 @@ import java.util.Scanner;
 public class UserInput {
     Scanner scanner = new Scanner(System.in);
 
-    public int userInputAsInteger(String inputMessage, int numberOfGuesses, String errorMessage) {
+    public int userInputAsInteger(String inputMessage, String errorMessage) {
         String userInput;
         int userInputAsInteger = 0;
         boolean validInput = false;
 
         while (!validInput) {
-            System.out.print(inputMessage + numberOfGuesses + ": ");
+            System.out.print(inputMessage);
             userInput = scanner.nextLine();
 
             try {
