@@ -1,65 +1,55 @@
-import java.io.*;
+import java.util.PriorityQueue;
 
 public class LowScore {
-    private static final String LOW_SCORE_FILE = "lowscores.txt";
-    static int score;
-    static String name;
+    private static final int MAX_LOW_SCORES = 5;
+    private static PriorityQueue<UserStats> lowScores;
+    private static String userName;
 
-    public static void lowScore(int userScore, String lowScoreMsg, String saveScoreMsg, String saveKeyWord, String userNameMsg) {
-        score = userScore;
+    public LowScore() {
+        lowScores = new PriorityQueue<>();
+    }   
 
-        // Check and save if user has new lowscore.
-        boolean isLowScore = checkIfLowScore(lowScoreMsg);
-        if (isLowScore) {
-            askToSave(saveScoreMsg, saveKeyWord, userNameMsg);
-        }
-    }
-
-    private static boolean checkIfLowScore(String lowScoreMsg) {
+    public static boolean checkIfLowScore(String newLowScoreMsg, int userScore) {
         // Check if user score is lower than current lowscore.
-        if (score < loadLowScore()) {
-            System.out.println(lowScoreMsg);
+        if (userScore < 99) { // add for loop here
+            System.out.println(newLowScoreMsg);
             return true;
         } else {
             return false;
         }
     }
 
-    private static void askToSave(String saveScoreMsg, String saveKeyWord, String userNameMsg) {
+    public static String askToSave(String saveScoreMsg, String saveKeyWord, String saveNameMsg) {
         System.out.print(saveScoreMsg);
         ValidateUserInput userInput = new ValidateUserInput();
-        if (userInput.userInputAsString().equals("JA")) {  
-            askForUserName(userNameMsg);
-            saveLowScore();
+        if (userInput.userInputAsString().equals(saveKeyWord)) {
+            userName = askForUserName(saveNameMsg);
         }
+        return userName;
     }
     
-    private static void askForUserName(String userNameMsg) {
-        // Ask user for name and save to class variable.
-        System.out.print(userNameMsg);
+    private static String askForUserName(String saveNameMsg) {
+        // Ask user for name return name
+        System.out.print(saveNameMsg);
         ValidateUserInput userInput = new ValidateUserInput();
-        name = userInput.userInputAsString();
+        String name = userInput.userInputAsString();
+        return name;
     }
 
-    private static void saveLowScore() {
-        // Save user name and score to file.
-        try (FileWriter writer = new FileWriter(LOW_SCORE_FILE)) {
-            writer.write(Integer.toString(score));
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void addLowScore(UserStats userStats) {
+        if (lowScores.size() < MAX_LOW_SCORES) {
+            lowScores.offer(userStats);
+        } else if (lowScores.peek().getScore() > userStats.getScore()) {
+            lowScores.poll();
+            lowScores.offer(userStats);
         }
     }
 
-    public static int loadLowScore() {
-        int lowScore = 0;
-        try (BufferedReader reader = new BufferedReader(new FileReader(LOW_SCORE_FILE))) {
-            String line = reader.readLine();
-            if (line != null) {
-                lowScore = Integer.parseInt(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    public static void showLowScore() {
+        System.out.println("------- LOWSCORES -------");
+        for (UserStats userStats : lowScores) {
+            System.out.println(userStats.toString());
         }
-        return lowScore;
+        System.out.println("-------------------------");
     }
 }
