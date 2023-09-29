@@ -1,6 +1,7 @@
 import java.util.Random;
 
 public class GissaEttTal {
+    public static final int MAX_LOW_SCORES = 5;
     private LowScore lowScore;
     private UserStats user;
     private ValidateUserInput userInput;
@@ -9,11 +10,14 @@ public class GissaEttTal {
     private int userGuess = 0;
     
     public GissaEttTal() {
-        lowScore = new LowScore(); // Initialize new instance of lowscores.
+        // Initialize new instance of lowscores and set max amout of lowscores. 
+        lowScore = new LowScore(); 
 
         while (runGame) {
-            user = new UserStats(null, 0);  // Create new user/player
-
+            // Create new user/player
+            user = new UserStats(null, 0);
+            
+            // Run game
             generateSecretNumber();
             printGameDescription();
             askUserToGuess();
@@ -26,8 +30,7 @@ public class GissaEttTal {
     private void generateSecretNumber() {
         // Generate a random number between 1 and 100.
         Random random = new Random();
-        secretNumber = random.nextInt(1) + 1;
-        //secretNumber = random.nextInt(100) + 1;
+        secretNumber = random.nextInt(100) + 1;
     }
 
     private void printGameDescription() {
@@ -60,18 +63,18 @@ public class GissaEttTal {
     }
 
     private void checkIfLowScore() {
+        // Set message that should be displayed if user has set a new lowscore.
+        String newLowScoreMsg = "Grattis! Du har satt ett nytt lowscore.";
         // Set a specific keyword that user need to type in consol in order to save lowscore.
         String saveKeyWord = "JA";
-        String newLowScoreMsg = "Grattis! Du har satt ett nytt lowscore.";
-        // Set message that should be shown to user if new lowscore achieved and ask to save
         String saveScoreMsg = "Skriv " + saveKeyWord + " för att spara: ";
         // Set message asking user for name that should be saved with lowscore.
         String saveNameMsg = "Skriv ditt namn: ";
 
         // Check if user score is lower than current lowscores and then ask user to save.
-        if (LowScore.checkIfLowScore(newLowScoreMsg, user.getScore())) {
+        if (LowScore.checkIfLowScore(newLowScoreMsg, user.getScore(), MAX_LOW_SCORES)) {
             user.setName(LowScore.askToSave(saveScoreMsg, saveKeyWord, saveNameMsg));
-            lowScore.addLowScore(user);
+            lowScore.addLowScore(user, MAX_LOW_SCORES);
             System.out.println(user.getName() + ", ditt lowscore: " + user.getScore() + " är sparat!");
         }
     }

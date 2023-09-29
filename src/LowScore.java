@@ -1,17 +1,15 @@
 import java.util.PriorityQueue;
 
 public class LowScore {
-    private static final int MAX_LOW_SCORES = 5; // CHANGE FROM CONSTANT AND HAVE GAME PASS IN VALUE
-    private static PriorityQueue<UserStats> lowScores;
+    private static PriorityQueue<UserStats> lowScores;    
     private static ValidateUserInput userInput;
-    private static String userName;
 
     public LowScore() {
         // Initialize new instance of Lowscore List.
         lowScores = new PriorityQueue<>();
-    }   
+    }
 
-    public static boolean checkIfLowScore(String newLowScoreMsg, int score) {
+    public static boolean checkIfLowScore(String newLowScoreMsg, int score, int MAX_LOW_SCORES) {
         // Check if score is lower than current lowscore.
         if (lowScores.size() < MAX_LOW_SCORES) {
             return true;
@@ -29,6 +27,7 @@ public class LowScore {
         userInput = new ValidateUserInput();
 
         // If user wants to save score, prompt user to enter name.
+        String userName = null;
         if (userInput.userInputAsString().equals(saveKeyWord)) {
             System.out.print(saveNameMsg);
             userInput = new ValidateUserInput();
@@ -37,7 +36,7 @@ public class LowScore {
         return userName;
     }
     
-    public void addLowScore(UserStats user) {
+    public void addLowScore(UserStats user, int MAX_LOW_SCORES) {
         if (lowScores.size() < MAX_LOW_SCORES) {
             lowScores.offer(user);
         } else if (lowScores.peek().getScore() > user.getScore()) {
