@@ -1,54 +1,55 @@
 import java.util.PriorityQueue;
 
 public class LowScore {
-    private static final int MAX_LOW_SCORES = 5;
+    private static final int MAX_LOW_SCORES = 5; // CHANGE FROM CONSTANT AND HAVE GAME PASS IN VALUE
     private static PriorityQueue<UserStats> lowScores;
+    private static ValidateUserInput userInput;
     private static String userName;
 
     public LowScore() {
+        // Initialize new instance of Lowscore List.
         lowScores = new PriorityQueue<>();
     }   
 
-    public static boolean checkIfLowScore(String newLowScoreMsg, int userScore) {
-        // Check if user score is lower than current lowscore.
-        if (userScore < 99) { // add for loop here
-            System.out.println(newLowScoreMsg);
+    public static boolean checkIfLowScore(String newLowScoreMsg, int score) {
+        // Check if score is lower than current lowscore.
+        if (lowScores.size() < MAX_LOW_SCORES) {
+            return true;
+        } else if (lowScores.peek().getScore() > score) {
             return true;
         } else {
             return false;
         }
     }
 
+    // MOVE THIS METHOD TO GissaEttTal.java
     public static String askToSave(String saveScoreMsg, String saveKeyWord, String saveNameMsg) {
+        // Print save message and prompt user to save score.
         System.out.print(saveScoreMsg);
-        ValidateUserInput userInput = new ValidateUserInput();
+        userInput = new ValidateUserInput();
+
+        // If user wants to save score, prompt user to enter name.
         if (userInput.userInputAsString().equals(saveKeyWord)) {
-            userName = askForUserName(saveNameMsg);
+            System.out.print(saveNameMsg);
+            userInput = new ValidateUserInput();
+            userName = userInput.userInputAsString();
         }
         return userName;
     }
     
-    private static String askForUserName(String saveNameMsg) {
-        // Ask user for name return name
-        System.out.print(saveNameMsg);
-        ValidateUserInput userInput = new ValidateUserInput();
-        String name = userInput.userInputAsString();
-        return name;
-    }
-
-    public void addLowScore(UserStats userStats) {
+    public void addLowScore(UserStats user) {
         if (lowScores.size() < MAX_LOW_SCORES) {
-            lowScores.offer(userStats);
-        } else if (lowScores.peek().getScore() > userStats.getScore()) {
+            lowScores.offer(user);
+        } else if (lowScores.peek().getScore() > user.getScore()) {
             lowScores.poll();
-            lowScores.offer(userStats);
+            lowScores.offer(user);
         }
     }
 
     public static void showLowScore() {
         System.out.println("------- LOWSCORES -------");
-        for (UserStats userStats : lowScores) {
-            System.out.println(userStats.toString());
+        for (UserStats user : lowScores) {
+            System.out.println(user.toString());
         }
         System.out.println("-------------------------");
     }

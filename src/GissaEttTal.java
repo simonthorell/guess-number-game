@@ -1,15 +1,19 @@
 import java.util.Random;
 
 public class GissaEttTal {
-    private LowScore lowScore = new LowScore();
+    private LowScore lowScore;
+    private UserStats user;
+    private ValidateUserInput userInput;
     private boolean runGame = true;
     private int secretNumber = 0;
     private int userGuess = 0;
-    private int userScore = 0;
-    private String userName;
     
     public GissaEttTal() {
+        lowScore = new LowScore(); // Initialize new instance of lowscores.
+
         while (runGame) {
+            user = new UserStats(null, 0);  // Create new user/player
+
             generateSecretNumber();
             printGameDescription();
             askUserToGuess();
@@ -31,12 +35,12 @@ public class GissaEttTal {
     }
 
     private void askUserToGuess() {
-        userScore++;
-        ValidateUserInput userInput = new ValidateUserInput();
+        user.setScore(user.getScore() + 1);     // Increment user score/guesses by 1.
+        userInput = new ValidateUserInput();    // Prompt user to type a number.
 
         userGuess = userInput.userInputAsInteger(
             // Set message that should be displayed to user in front of user input value. 
-            "Gissning " + userScore + ": ",
+            "Gissning " + user.getScore() + ": ",
             // Set messeage that should be returned to user if input is not an integer.
             "Du kan bara skriva ett tal med siffror. Försök igen!"
         );
@@ -52,7 +56,7 @@ public class GissaEttTal {
             }
             askUserToGuess();
         }
-        System.out.println("Rätt! Du gissade rätt på " + userScore + " försök.");
+        System.out.println("Rätt! Du gissade rätt på " + user.getScore() + " försök.");
     }
 
     private void checkIfLowScore() {
@@ -65,17 +69,15 @@ public class GissaEttTal {
         String saveNameMsg = "Skriv ditt namn: ";
 
         // Check if user score is lower than current lowscores and then ask user to save.
-        boolean newLowScore = LowScore.checkIfLowScore(newLowScoreMsg, userScore);
-        if (newLowScore) {
-            userName = LowScore.askToSave(saveScoreMsg, saveKeyWord, saveNameMsg);
-            UserStats userStats = new UserStats(userName, userScore);
-            lowScore.addLowScore(userStats);
-            System.out.println(userName + ", ditt lowscore: " + userScore+ " är sparat!");
+        if (LowScore.checkIfLowScore(newLowScoreMsg, user.getScore())) {
+            user.setName(LowScore.askToSave(saveScoreMsg, saveKeyWord, saveNameMsg));
+            lowScore.addLowScore(user);
+            System.out.println(user.getName() + ", ditt lowscore: " + user.getScore() + " är sparat!");
         }
     }
 
     private void gameMenu() {
-        ValidateUserInput userInput = new ValidateUserInput();
+        userInput = new ValidateUserInput();
 
         System.out.println("1. Spela igen");
         System.out.println("2. Avsluta");
@@ -90,8 +92,7 @@ public class GissaEttTal {
 
         switch (menuSelection) {
             case 1:
-                // Reset and restart game
-                userScore = 0;
+                // Restart game
                 break;
             case 2:
                 // End Game
@@ -99,11 +100,12 @@ public class GissaEttTal {
                 System.out.println("Tack för att du spelade!");
                 break;
             case 3:
-                // Show lowscore board
+                // Print lowscore board
                 LowScore.showLowScore();
                 gameMenu();
                 break;
             default:
+                // Error message shown if user input is not a valid option.
                 System.out.println("Du kan bara skriva 1, 2 eller 3. Försök igen!");
                 break;
         }
