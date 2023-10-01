@@ -1,7 +1,7 @@
 import java.util.PriorityQueue;
 
 public class LowScore {
-    private static PriorityQueue<UserStats> lowScores;
+    private PriorityQueue<UserStats> lowScores;
     private int maxLowScores;
 
     public LowScore(int MAX_LOW_SCORES) {
