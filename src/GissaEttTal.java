@@ -1,7 +1,7 @@
 import java.util.Random;
 
 public class GissaEttTal {
-    private final int MAX_SECRET_NUMBER = 2;
+    private final int MAX_SECRET_NUMBER = 100;
     private final int MIN_SECRET_NUMBER = 1;
     private final int MAX_LOW_SCORES = 5;
     private LowScore lowScore;
