@@ -16,7 +16,7 @@ public class GissaEttTal {
         lowScore = new LowScore(MAX_LOW_SCORES); 
 
         while (runGame) {
-            // Initialize new user/player instance. Resets name and score by passing .
+            // Initialize new user/player instance. Resets name and score by passing arguments.
             user = new UserStats(null, 0);
             
             // Run game
@@ -112,7 +112,7 @@ public class GissaEttTal {
         int menuSelection = userInput.userInputAsInteger(
             // Set message that should be displayed to user in front of user input value. 
             "Ditt val: ",
-            // Set messeage that should be returned to user if input is not in menu options range.
+            // Set message that should be returned to user if input is not in menu options range.
             "Du kan bara skriva ett tal mellan 1 & 3. Försök igen!"
         );
 
