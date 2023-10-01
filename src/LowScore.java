@@ -31,11 +31,11 @@ public class LowScore {
         }
     }
 
-    public void showLowScore() {
-        System.out.println("------- LOWSCORES -------");
+    public void showLowScore(String nameString, String scoreString) {
+        System.out.println("-------- LOWSCORES --------");
         for (UserStats user : lowScores) {
-            System.out.println(user.toString());
+            System.out.println(user.toString(nameString, scoreString));
         }
-        System.out.println("-------------------------");
+        System.out.println("---------------------------");
     }
 }

@@ -29,8 +29,8 @@ public class UserStats implements Comparable<UserStats> {
         return Integer.compare(other.getScore(), this.score);
     }
 
-    public String toString() {
-        return "Name: " + name + "\t Score: " + score;
+    public String toString(String nameString, String scoreString) {
+        return nameString + ": " + name + "\t" + scoreString +  ": " + score;
     }
     
 }

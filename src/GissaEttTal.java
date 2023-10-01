@@ -49,7 +49,7 @@ public class GissaEttTal {
             // Set message that should be displayed to user in front of user input value. 
             "Gissning " + user.getScore() + ": ",
             // Set messeage that should be returned to user if input is not an integer.
-            "Du kan bara skriva ett tal mellan " + MIN_SECRET_NUMBER + " & " + MAX_SECRET_NUMBER + ". Försök igen!"
+            "Du ska gissa ett tal mellan " + MIN_SECRET_NUMBER + " & " + MAX_SECRET_NUMBER + ". Försök igen!"
         );
     }
 
@@ -82,7 +82,7 @@ public class GissaEttTal {
 
         userInput = new ValidateUserInput(1, 3);
 
-        // Check if user input is equal to saveKeyWord then ask for name and save lowscore.
+        // Check if user input is equal to saveKeyWord then ask for name.
         if (userInput.userInputAsString(
                 "Skriv " + saveKeyWord + " för att spara: ", 
                 "Skriv minst 1 tecken och max 3 tecken. Försök igen!"
@@ -94,8 +94,11 @@ public class GissaEttTal {
                 "Skriv minst 3 tecken och max 9 tecken. Försök igen!"
                 ));
             
+            // Save lowscore and confirm to user that lowscore is saved.
             lowScore.addLowScore(user);
             System.out.println(user.getName() + ", ditt lowscore är nu sparat!");
+        } else {
+            System.out.println("Du valde att inte spara ditt lowscore.");
         }
     }
 
@@ -105,38 +108,28 @@ public class GissaEttTal {
         System.out.println("3. Se lowscore");
 
         userInput = new ValidateUserInput(1,3);
-        boolean validInput = false;
 
-        while (!validInput) {
-            int menuSelection = userInput.userInputAsInteger(
-                // Set message that should be displayed to user in front of user input value. 
-                "Ditt val: ",
-                // Set messeage that should be returned to user if input is not an integer.
-                "Du kan bara skriva ett tal mellan 1 & 3. Försök igen!"
-            );
+        int menuSelection = userInput.userInputAsInteger(
+            // Set message that should be displayed to user in front of user input value. 
+            "Ditt val: ",
+            // Set messeage that should be returned to user if input is not an integer.
+            "Du kan bara skriva ett tal mellan 1 & 3. Försök igen!"
+        );
 
-            switch (menuSelection) {
-                case 1:
-                    // Restart game
-                    validInput = true;
-                    break;
-                case 2:
-                    // End Game
-                    runGame = false;
-                    System.out.println("Tack för att du spelade!");
-                    validInput = true;
-                    break;
-                case 3:
-                    // Print lowscore board
-                    lowScore.showLowScore();
-                    gameMenu();
-                    validInput = true;
-                    break;
-                default:
-                    // Error message shown if user input is not a valid option.
-                    System.out.println("Du kan bara skriva 1, 2 eller 3. Försök igen!");
-                    break;
-            }
+        switch (menuSelection) {
+            case 1:
+                // Restart game
+                break;
+            case 2:
+                // End Game
+                runGame = false;
+                System.out.println("Tack för att du spelade!");
+                break;
+            case 3:
+                // Print lowscore board
+                lowScore.showLowScore("Namn", "Försök");
+                gameMenu();
+                break;
         }
     }
 }
