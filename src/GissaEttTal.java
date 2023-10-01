@@ -16,7 +16,7 @@ public class GissaEttTal {
         lowScore = new LowScore(MAX_LOW_SCORES); 
 
         while (runGame) {
-            // Initialize new user/player instance.
+            // Initialize new user/player instance. Resets name and score by passing .
             user = new UserStats(null, 0);
             
             // Run game
@@ -30,7 +30,7 @@ public class GissaEttTal {
     }
 
     private void generateSecretNumber() {
-        // Generate a random number between MIN_SECRET_NUMBER & MAX_SECRET_NUMBER (including min & max values).
+        // Generate a random number between MIN_SECRET_NUMBER & MAX_SECRET_NUMBER (including MIN & MAX).
         Random random = new Random();
         secretNumber = random.nextInt((MAX_SECRET_NUMBER - MIN_SECRET_NUMBER) + 1) + MIN_SECRET_NUMBER;
     }
@@ -40,15 +40,13 @@ public class GissaEttTal {
     }
 
     private void askUserToGuess() {
-        // Increment user score/guesses by 1.
-        user.setScore(user.getScore() + 1);     
-        // Prompt user to type a number.
+        user.setScore(user.getScore() + 1); // Increment user score by 1.     
+
         userInput = new ValidateUserInput(MIN_SECRET_NUMBER, MAX_SECRET_NUMBER);    
 
         userGuess = userInput.userInputAsInteger(
-            // Set message that should be displayed to user in front of user input value. 
+            // inputMsg and errorMsg are arguments that will be passed to userInputAsInteger method.
             "Gissning " + user.getScore() + ": ",
-            // Set messeage that should be returned to user if input is not an integer.
             "Du ska gissa ett tal mellan " + MIN_SECRET_NUMBER + " & " + MAX_SECRET_NUMBER + ". Försök igen!"
         );
     }
@@ -84,12 +82,14 @@ public class GissaEttTal {
 
         // Check if user input is equal to saveKeyWord then ask for name.
         if (userInput.userInputAsString(
+                // inputMsg and errorMsg are arguments that will be passed to userInputAsString method.
                 "Skriv " + saveKeyWord + " för att spara: ", 
                 "Skriv minst 1 tecken och max 3 tecken. Försök igen!"
                 ).equals(saveKeyWord)) {
             
             userInput = new ValidateUserInput(3, 9);
             user.setName(userInput.userInputAsString(
+                // inputMsg and errorMsg are arguments that will be passed to userInputAsString method.
                 "Skriv ditt namn: ", 
                 "Skriv minst 3 tecken och max 9 tecken. Försök igen!"
                 ));
@@ -112,7 +112,7 @@ public class GissaEttTal {
         int menuSelection = userInput.userInputAsInteger(
             // Set message that should be displayed to user in front of user input value. 
             "Ditt val: ",
-            // Set messeage that should be returned to user if input is not an integer.
+            // Set messeage that should be returned to user if input is not in menu options range.
             "Du kan bara skriva ett tal mellan 1 & 3. Försök igen!"
         );
 
@@ -126,8 +126,10 @@ public class GissaEttTal {
                 System.out.println("Tack för att du spelade!");
                 break;
             case 3:
-                // Print lowscore board
-                lowScore.showLowScore("Namn", "Försök");
+                System.out.println("-------- LOWSCORES --------");
+                // Print lowscores and pass in column names as arguments.
+                lowScore.printLowScores("Namn", "Försök");
+                System.out.println("---------------------------");
                 gameMenu();
                 break;
         }
