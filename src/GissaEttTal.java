@@ -1,16 +1,16 @@
 import java.util.Random;
 
 public class GissaEttTal {
-    public static final int MAX_LOW_SCORES = 5;
     private LowScore lowScore;
     private UserStats user;
     private ValidateUserInput userInput;
+    private final int MAX_LOW_SCORES = 5;
     private boolean runGame = true;
     private int secretNumber = 0;
     private int userGuess = 0;
     
     public GissaEttTal() {
-        // Initialize new instance of lowscores and set max amout of lowscores. 
+        // Initialize new instance of lowscores. 
         lowScore = new LowScore(); 
 
         while (runGame) {
@@ -63,19 +63,27 @@ public class GissaEttTal {
     }
 
     private void checkIfLowScore() {
-        // Set message that should be displayed if user has set a new lowscore.
-        String newLowScoreMsg = "Grattis! Du har satt ett nytt lowscore.";
+        // Check if user score is lower than current lowscores and then ask if user want to save.
+        if (lowScore.checkIfLowScore(user.getScore(), MAX_LOW_SCORES)) {
+            System.out.println("Grattis! Du har satt ett nytt lowscore.");
+            askToSave();
+        } else {
+            System.out.println("Du har tyvärr inte satt ett nytt lowscore.");
+        }
+    }
+
+    private void askToSave() {
         // Set a specific keyword that user need to type in consol in order to save lowscore.
         String saveKeyWord = "JA";
-        String saveScoreMsg = "Skriv " + saveKeyWord + " för att spara: ";
-        // Set message asking user for name that should be saved with lowscore.
-        String saveNameMsg = "Skriv ditt namn: ";
 
-        // Check if user score is lower than current lowscores and then ask user to save.
-        if (LowScore.checkIfLowScore(newLowScoreMsg, user.getScore(), MAX_LOW_SCORES)) {
-            user.setName(LowScore.askToSave(saveScoreMsg, saveKeyWord, saveNameMsg));
+        System.out.print("Skriv " + saveKeyWord + " för att spara: ");
+        userInput = new ValidateUserInput();
+
+        if (userInput.userInputAsString().equals(saveKeyWord)) {
+            System.out.print("Skriv ditt namn: ");
+            userInput = new ValidateUserInput();
+            user.setName(userInput.userInputAsString());
             lowScore.addLowScore(user, MAX_LOW_SCORES);
-            System.out.println(user.getName() + ", ditt lowscore: " + user.getScore() + " är sparat!");
         }
     }
 
@@ -104,7 +112,7 @@ public class GissaEttTal {
                 break;
             case 3:
                 // Print lowscore board
-                LowScore.showLowScore();
+                lowScore.showLowScore();
                 gameMenu();
                 break;
             default:
