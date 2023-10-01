@@ -1,29 +1,31 @@
 import java.util.PriorityQueue;
 
 public class LowScore {
-    private static PriorityQueue<UserStats> lowScores;    
+    private static PriorityQueue<UserStats> lowScores;
+    private int maxLowScores;
 
-    public LowScore() {
+    public LowScore(int MAX_LOW_SCORES) {
         lowScores = new PriorityQueue<>();
+        this.maxLowScores = MAX_LOW_SCORES;
     }
 
-    public boolean checkIfLowScore(int score, int MAX_LOW_SCORES) {
+    public boolean checkIfLowScore(int userScore) {
         // Check if empty slot is available, if not check if score is lower than current lowscores.
-        if (lowScores.size() < MAX_LOW_SCORES) {
+        if (lowScores.size() < maxLowScores) {
             return true;
-        } else if (lowScores.peek().getScore() > score) {
+        } else if (lowScores.peek().getScore() >= userScore) {
             return true;
         } else {
             return false;
         }
     }
     
-    public void addLowScore(UserStats user, int MAX_LOW_SCORES) {
+    public void addLowScore(UserStats user) {
         // Check if empty slot is available in lowscores list and add new lowscore. 
-        if (lowScores.size() < MAX_LOW_SCORES) {
+        if (lowScores.size() < maxLowScores) {
             lowScores.offer(user);
         // If no empty slots, kick current highest lowscore and add new lowscore.
-        } else if (lowScores.peek().getScore() > user.getScore()) {
+        } else if (lowScores.peek().getScore() >= user.getScore()) {
             lowScores.poll();
             lowScores.offer(user);
         }
