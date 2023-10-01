@@ -10,11 +10,11 @@ public class GissaEttTal {
     private int userGuess = 0;
     
     public GissaEttTal() {
-        // Initialize new instance of lowscores. 
+        // Initialize new lowscores board instance. 
         lowScore = new LowScore(); 
 
         while (runGame) {
-            // Create new user/player
+            // Initialize new user/player instance.
             user = new UserStats(null, 0);
             
             // Run game
@@ -94,31 +94,38 @@ public class GissaEttTal {
         System.out.println("2. Avsluta");
         System.out.println("3. Se lowscore");
 
-        int menuSelection = userInput.userInputAsInteger(
-            // Set message that should be displayed to user in front of user input value. 
-            "Ditt val: ",
-            // Set messeage that should be returned to user if input is not an integer.
-            "Du kan bara skriva ett tal med siffror. Försök igen!"
-        );
+        boolean validInput = false;
 
-        switch (menuSelection) {
-            case 1:
-                // Restart game
-                break;
-            case 2:
-                // End Game
-                runGame = false;
-                System.out.println("Tack för att du spelade!");
-                break;
-            case 3:
-                // Print lowscore board
-                lowScore.showLowScore();
-                gameMenu();
-                break;
-            default:
-                // Error message shown if user input is not a valid option.
-                System.out.println("Du kan bara skriva 1, 2 eller 3. Försök igen!");
-                break;
+        while (!validInput) {
+            int menuSelection = userInput.userInputAsInteger(
+                // Set message that should be displayed to user in front of user input value. 
+                "Ditt val: ",
+                // Set messeage that should be returned to user if input is not an integer.
+                "Du kan bara skriva ett tal med siffror. Försök igen!"
+            );
+
+            switch (menuSelection) {
+                case 1:
+                    // Restart game
+                    validInput = true;
+                    break;
+                case 2:
+                    // End Game
+                    runGame = false;
+                    System.out.println("Tack för att du spelade!");
+                    validInput = true;
+                    break;
+                case 3:
+                    // Print lowscore board
+                    lowScore.showLowScore();
+                    gameMenu();
+                    validInput = true;
+                    break;
+                default:
+                    // Error message shown if user input is not a valid option.
+                    System.out.println("Du kan bara skriva 1, 2 eller 3. Försök igen!");
+                    break;
+            }
         }
     }
 }
