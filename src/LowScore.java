@@ -8,7 +8,7 @@ public class LowScore {
     }
 
     public boolean checkIfLowScore(int score, int MAX_LOW_SCORES) {
-        // Check if score is lower than current lowscores.
+        // Check if empty slot is available, if not check if score is lower than current lowscores.
         if (lowScores.size() < MAX_LOW_SCORES) {
             return true;
         } else if (lowScores.peek().getScore() > score) {
@@ -19,8 +19,10 @@ public class LowScore {
     }
     
     public void addLowScore(UserStats user, int MAX_LOW_SCORES) {
+        // Check if empty slot is available in lowscores list and add new lowscore. 
         if (lowScores.size() < MAX_LOW_SCORES) {
             lowScores.offer(user);
+        // If no empty slots, kick current highest lowscore and add new lowscore.
         } else if (lowScores.peek().getScore() > user.getScore()) {
             lowScores.poll();
             lowScores.offer(user);

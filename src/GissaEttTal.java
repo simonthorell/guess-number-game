@@ -79,6 +79,7 @@ public class GissaEttTal {
         System.out.print("Skriv " + saveKeyWord + " för att spara: ");
         userInput = new ValidateUserInput();
 
+        // Check if user input is equal to saveKeyWord then save lowscore.
         if (userInput.userInputAsString().equals(saveKeyWord)) {
             System.out.print("Skriv ditt namn: ");
             userInput = new ValidateUserInput();
@@ -88,12 +89,11 @@ public class GissaEttTal {
     }
 
     private void gameMenu() {
-        userInput = new ValidateUserInput();
-
         System.out.println("1. Spela igen");
         System.out.println("2. Avsluta");
         System.out.println("3. Se lowscore");
 
+        userInput = new ValidateUserInput();
         boolean validInput = false;
 
         while (!validInput) {
