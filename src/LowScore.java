@@ -1,4 +1,7 @@
 import java.util.PriorityQueue;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class LowScore {
     private PriorityQueue<UserStats> lowScores;
@@ -32,7 +35,11 @@ public class LowScore {
     }
 
     public void printLowScores(String nameString, String scoreString) {
-        for (UserStats user : lowScores) {
+        // Create a new list and sort it in descending order in order to print lowscores in sorted order. 
+        List<UserStats> sortedLowScores = new ArrayList<>(lowScores);
+        Collections.sort(sortedLowScores, Collections.reverseOrder());
+
+        for (UserStats user : sortedLowScores) {
             System.out.println(user.toString(nameString, scoreString));
         }
     }
