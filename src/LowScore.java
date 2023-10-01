@@ -3,6 +3,18 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/* 
+Jag bör antagligen byta ut PriorityQueue mot TreeSet istället?
+Eftersom TreeSet inte kan hantera dubletter, hur skulle dessa kunna hanteras? Dvs. om en spelare får exakt samma poäng och väljer samma namn. 
+
+För en highscore lista bör väl Peeking vara snabbast möjliga, dvs. O(1) för att snabbt kunna avgöra om poängen ska behöva sparas eller inte?
+Både PriorityQueue & TreeSet har O(1) för Peeking, medan ArrayList & LinkedList har O(n).
+Vid en lång highscore lista kommer annars Peeking tid att öka exponentiellt med antalet spelare om ArrayList eller LinkedList används.
+
+Insertion för PriorityQueue & TreeSet är dock O(log n), medan ArrayList & LinkedList är O(n).
+Men jag antar att Peeking tid är viktigare än Insertion tid i detta "use case"?
+*/
+
 public class LowScore {
     private PriorityQueue<UserStats> lowScores;
     private int maxLowScores;
