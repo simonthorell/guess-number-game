@@ -6,8 +6,7 @@ public class ValidateUserInput {
     private int maxValue;
 
     public ValidateUserInput(int minValue, int maxValue) {
-        /*  Set min & max values for user input.
-        For Integers it will set the range and for Strings it will set the length. */
+        // For Integers this will set the range and for Strings it will set the length.
         this.minValue = minValue;
         this.maxValue = maxValue;
     }
@@ -18,7 +17,6 @@ public class ValidateUserInput {
 
             try {
                 // If input is integer, loop will break and return input. 
-                // int userInput = scanner.nextInt(); - WHICH OPTION IS BETTER?
                 int userInput = Integer.parseInt(scanner.nextLine());
                 
                 if (userInput >= minValue && userInput <= maxValue) {
