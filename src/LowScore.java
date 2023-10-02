@@ -38,6 +38,7 @@ public class LowScore {
         // Create a new list and sort it in descending order in order to print lowscores in sorted order. 
         List<UserStats> sortedLowScores = new ArrayList<>(lowScores);
         Collections.sort(sortedLowScores, Collections.reverseOrder());
+        // TEST git branch
 
         for (UserStats user : sortedLowScores) {
             System.out.println(user.toString(nameString, scoreString));
