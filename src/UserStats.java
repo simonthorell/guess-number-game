@@ -26,7 +26,12 @@ public class UserStats implements Comparable<UserStats> {
     @Override
     public int compareTo(UserStats other) {
         // Higher scores are lower priority (i.e., we're keeping the lowest scores)
-        return Integer.compare(other.getScore(), this.score);
+        int valueComparison = Integer.compare(other.getScore(), this.score);
+        if (valueComparison != 0) {
+            return valueComparison;  // sort by value
+        } else {
+            return this.name.compareTo(other.name);  // if values are equal, sort by name
+        }
     }
 
     public String toString(String nameString, String scoreString) {
