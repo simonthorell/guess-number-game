@@ -12,9 +12,7 @@ public class LowScore {
 
     public boolean checkIfLowScore(int userScore) {
         // Check if empty slot is available, if not check if score is lower than current lowscores.
-        if (lowScores.size() < maxLowScores) {
-            return true;
-        } else if (lowScores.last().getScore() >= userScore) {
+        if (lowScores.size() < maxLowScores || lowScores.last().getScore() >= userScore) {
             return true;
         } else {
             return false;
